@@ -1,6 +1,6 @@
 use  `student-management`;
 drop table class,teacher;
-create table Class(
+create table class(
 id int primary key ,
 name varchar(50)
 );
