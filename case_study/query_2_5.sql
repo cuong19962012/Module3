@@ -25,4 +25,8 @@ order by count_booking;
 
 select customer.id,customer.name,kind_of_customer.name,contract.id,service.name,contract.date_contract,contract.date_end,service.costs+(contract_detail.quantity*accompanied_service.price) as "total_price"
 from customer
-join 
+left join kind_of_customer on customer.id_kind_of_customer=kind_of_customer.id
+left join contract on customer.id = contract.id_customer
+left join service on contract.id_service=service.id
+left join contract_detail on contract.id=contract_detail.id_contract
+left join accompanied_service on contract_detail.id_accompanied_service =accompanied_service.id;
