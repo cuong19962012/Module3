@@ -30,13 +30,20 @@ from (select sum(contract_detail.quantity) as max from accompanied_service join 
 
 -- 14.	Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất. Thông tin hiển thị bao gồm ma_hop_dong, ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung (được tính dựa trên việc count các ma_dich_vu_di_kem).
 -- chưa làm đc
-select distinctrow contract.id,kind_of_service.name,accompanied_service.name-- ,count(contract_detail.id_accompanied_service)
+select distinct contract.id,kind_of_service.name,accompanied_service.name,count(accompanied_service.id)
 from accompanied_service
 join contract_detail on accompanied_service.id=contract_detail.id_accompanied_service
 join contract on contract.id=contract_detail.id_contract
 join service on service.id=contract.id_service
 join kind_of_service on kind_of_service.id=service.id_kind_of_service
-group by accompanied_service.id and accompanied_service.name;
+where accompanied_service.id in (select accompanied_service.id
+from accompanied_service
+join contract_detail on contract_detail.id_accompanied_service=accompanied_service.id
+join contract on contract.id=contract_detail.id_contract
+group by accompanied_service.id
+having count(contract_detail.id)=1
+ )
+group by contract_detail.id ,service.name;
 
 -- 15.	Hiển thi thông tin của tất cả nhân viên bao gồm ma_nhan_vien, ho_ten, ten_trinh_do, ten_bo_phan, so_dien_thoai, dia_chi mới chỉ lập được tối đa 3 hợp đồng từ năm 2020 đến 2021.
 select employee.id,employee.name,literacy.name,department.name,employee.phone_number,employee.address
@@ -46,4 +53,5 @@ join department on employee.id_department=department.id
 join contract on contract.id_employee=employee.id
 group by employee.id
 having count(contract.id)<=3;
+
 

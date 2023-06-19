@@ -18,3 +18,4 @@ from student s join mark m on s.studentid=m.studentid
 group by s.studentid,s.studentname
 having avg(m.mark) >= all(select avg(mark) from mark group by mark.studentid);
 
+

@@ -1,21 +1,31 @@
 
 use furuma_management;
 -- 6.	Hiển thị ma_dich_vu, ten_dich_vu, dien_tich, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ chưa từng được khách hàng thực hiện đặt từ quý 1 của năm 2021 (Quý 1 là tháng 1, 2, 3).
- -- hỏi
+
 select distinct service.id,service.name,service.use_area,service.costs,kind_of_service.name
 from service
 left join contract on contract.id_service=service.id
 left join kind_of_service on service.id_kind_of_service=kind_of_service.id
-where not ((month(contract.date_contract) between 1 and 3) and year(contract.date_contract)=2021)
+where service.id not in (
+select service.id
+from service
+left join contract on contract.id_service=service.id
+where (month(contract.date_contract) between 1 and 3) and year(contract.date_contract)=2021
+)
 order by service.name desc;
 
+
 -- 7.	Hiển thị thông tin ma_dich_vu, ten_dich_vu, dien_tich, so_nguoi_toi_da, chi_phi_thue, ten_loai_dich_vu của tất cả các loại dịch vụ đã từng được khách hàng đặt phòng trong năm 2020 nhưng chưa từng được khách hàng đặt phòng trong năm 2021.
--- hỏi
 select service.id,service.name,service.use_area, service.max_person,service.costs,kind_of_service.name
 from service
 left join kind_of_service on service.id_kind_of_service=kind_of_service.id 
-join contract on service.id=contract.id_service
-where year(contract.date_contract)=2020 and not year(contract.date_contract)=2021
+left join contract on service.id=contract.id_service
+where service.id not in (
+select service.id
+from service
+left join contract on service.id=contract.id_service
+where not year(contract.date_contract)=2020 and year(contract.date_contract)=2021
+)
 group by service.id;
 
 -- 8.	Hiển thị thông tin ho_ten khách hàng có trong hệ thống, với yêu cầu ho_ten không trùng nhau.Học viên sử dụng theo 3 cách khác nhau để thực hiện yêu cầu trên.
