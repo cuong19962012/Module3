@@ -2,7 +2,7 @@ use furuma_management;
 -- 2.	Hiển thị thông tin của tất cả nhân viên có trong hệ thống có tên bắt đầu là một trong các ký tự “H”, “T” hoặc “K” và có tối đa 15 kí tự.
 select *
 from employee
-where (name like "h%" or name like "t%" or name like "k%") and length(name)<=16;
+where (name like "h%" or name like "t%" or name like "k%") and char_length(name)<=15;
 
 -- 3.	Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi và có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”.
 
@@ -23,11 +23,29 @@ order by count_booking;
 -- 5.	Hiển thị ma_khach_hang, ho_ten, ten_loai_khach, ma_hop_dong, ten_dich_vu, ngay_lam_hop_dong, ngay_ket_thuc, tong_tien (Với tổng tiền được tính theo công thức như sau: Chi Phí Thuê + Số Lượng * Giá, với Số Lượng và Giá là từ bảng dich_vu_di_kem, hop_dong_chi_tiet) cho tất cả các khách hàng đã từng đặt phòng. (những khách hàng nào chưa từng đặt phòng cũng phải hiển thị ra). 
 
 
-select customer.id,customer.name,kind_of_customer.name,contract.id,service.name,contract.date_contract,contract.date_end,service.costs+contract_detail.quantity*accompanied_service.price as "total_price"
+select customer.id,customer.name,kind_of_customer.name,contract.id,service.name,contract.date_contract,contract.date_end, service.costs+sum(contract_detail.quantity*accompanied_service.price) as "total_price"
+from customer
+left join kind_of_customer on customer.id_kind_of_customer=kind_of_customer.id
+left join contract on customer.id = contract.id_customer
+left join service on contract.id_service=service.id
+left join contract_detail on contract.id=contract_detail.id_contract
+left join accompanied_service on contract_detail.id_accompanied_service = accompanied_service.id
+ group by customer.id,contract.id;
+
+select distinct customer.id,customer.name,kind_of_customer.name,contract.id,service.name,contract.date_contract,contract.date_end, service.costs+contract_detail.quantity*accompanied_service.price as "total_price"
+from customer
+left join kind_of_customer on customer.id_kind_of_customer=kind_of_customer.id
+left join contract on customer.id = contract.id_customer
+left join service on contract.id_service=service.id
+left join contract_detail on contract.id=contract_detail.id_contract
+left join accompanied_service on contract_detail.id_accompanied_service = accompanied_service.id
+group by customer.id,contract.id,contract_detail.id;
+
+
+select distinct customer.id,customer.name,kind_of_customer.name,contract.id,service.name,contract.date_contract,contract.date_end, service.costs+contract_detail.quantity*accompanied_service.price as "total_price"
 from customer
 left join kind_of_customer on customer.id_kind_of_customer=kind_of_customer.id
 left join contract on customer.id = contract.id_customer
 left join service on contract.id_service=service.id
 left join contract_detail on contract.id=contract_detail.id_contract
 left join accompanied_service on contract_detail.id_accompanied_service = accompanied_service.id;
-

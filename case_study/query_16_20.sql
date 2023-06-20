@@ -205,12 +205,48 @@ where year(contract.date_contract) between 2019 and 2021
 commit;
 
 -- 17.	Cập nhật thông tin những khách hàng có ten_loai_khach từ Platinum lên Diamond, chỉ cập nhật những khách hàng đã từng đặt phòng với Tổng Tiền thanh toán trong năm 2021 là lớn hơn 10.000.000 VNĐ.
-update kind_of_customer
-join customer on customer.id_kind_of_customer=customer.id
-join contract on contract.id_customer=customer.id
-join service on contract.id_service=service.id
-join contract_detail on contract_detail.id_contract=contract.id
-join accompanied_service on accompanied_service.id = contract_detail.id_accompanied_service
-set kind_of_customer.name='Diamond'
-where sum(service.costs+contract_detail.quantity*accompanied_service.price)>10000000 and year(contract.date_contract)=2021
+update customer
+set customer.id_kind_of_customer=1
+where customer.id = (select *
+					from(select customer.id
+						from customer
+						join contract on contract.id_customer=customer.id
+						join service on contract.id_service=service.id
+						join contract_detail on contract_detail.id_contract=contract.id
+						join accompanied_service on accompanied_service.id = contract_detail.id_accompanied_service
+						where year(contract.date_contract)=2021 and customer.id_kind_of_customer=2
+						group by customer.id
+						having sum(service.costs+contract_detail.quantity*accompanied_service.price)>10000000) as t
+					);
+                    
+-- 18.	Xóa những khách hàng có hợp đồng trước năm 2021 (chú ý ràng buộc giữa các bảng).
+SET FOREIGN_KEY_CHECKS=0; -- to disable them
+delete customer from (
+	select customer.id as id
+    from customer
+    join contract on contract.id_customer=customer.id
+    where year(contract.date_contract)<2021
+) as t
+join customer on t.id=customer.id
+where customer.id=t.id;
+SET FOREIGN_KEY_CHECKS=1; -- to re-enable them
 
+
+-- 19.	Cập nhật giá cho các dịch vụ đi kèm được sử dụng trên 10 lần trong năm 2020 lên gấp đôi.
+
+update accompanied_service 
+join (select accompanied_service.id 
+from accompanied_service
+join contract_detail on contract_detail.id_accompanied_service=accompanied_service.id
+join contract on contract_detail.id_contract=contract.id
+where year(contract.date_contract)=2020 and contract_detail.quantity>10
+group by accompanied_service.id
+) as t on t.id=accompanied_service.id
+set accompanied_service.price=accompanied_service.price*2;
+
+-- 20.	Hiển thị thông tin của tất cả các nhân viên và khách hàng có trong hệ thống, thông tin hiển thị bao gồm id (ma_nhan_vien, ma_khach_hang), ho_ten, email, so_dien_thoai, ngay_sinh, dia_chi.
+select id,name,email,phone_number,birtday,address
+from employee
+union all
+select id,name,email,phone_number,birthday,address
+from customer;

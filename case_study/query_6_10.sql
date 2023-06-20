@@ -30,14 +30,14 @@ group by service.id;
 
 -- 8.	Hiển thị thông tin ho_ten khách hàng có trong hệ thống, với yêu cầu ho_ten không trùng nhau.Học viên sử dụng theo 3 cách khác nhau để thực hiện yêu cầu trên.
 
-select customer.name 
+select distinct customer.name 
 from customer;
 
-select customer.name
+select distinct customer.name
 from kind_of_customer
 right join customer on customer.id_kind_of_customer=kind_of_customer.id;
 
-select customer.name
+select distinct customer.name
 from contract
 right join customer on contract.id_customer=customer.id
 group by customer.id;

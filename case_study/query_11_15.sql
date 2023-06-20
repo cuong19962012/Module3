@@ -29,7 +29,6 @@ having sum(contract_detail.quantity)=(select max(max)
 from (select sum(contract_detail.quantity) as max from accompanied_service join contract_detail on accompanied_service.id=contract_detail.id_accompanied_service group by accompanied_service.id) s);
 
 -- 14.	Hiển thị thông tin tất cả các Dịch vụ đi kèm chỉ mới được sử dụng một lần duy nhất. Thông tin hiển thị bao gồm ma_hop_dong, ten_loai_dich_vu, ten_dich_vu_di_kem, so_lan_su_dung (được tính dựa trên việc count các ma_dich_vu_di_kem).
--- chưa làm đc
 select distinct contract.id,kind_of_service.name,accompanied_service.name,count(accompanied_service.id)
 from accompanied_service
 join contract_detail on accompanied_service.id=contract_detail.id_accompanied_service
