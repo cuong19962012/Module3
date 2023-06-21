@@ -54,21 +54,22 @@ call sp_them_moi_hop_dong(13,'2023-06-20','2023-06-21',1000000,3,3,3);
 
 -- 25.	Tạo Trigger có tên tr_xoa_hop_dong khi xóa bản ghi trong bảng hop_dong thì hiển thị tổng số lượng bản ghi còn lại có trong bảng hop_dong ra giao diện console của database.
 -- Lưu ý: Đối với MySQL thì sử dụng SIGNAL hoặc ghi log thay cho việc ghi ở console.
+
 delimiter //
 create trigger tr_xoa_hop_dong 
 after delete on contract for each row
 begin
-	declare quantity int;
-    declare msg varchar(255);
-    select count(contract.id) into quantity
-    from contract;
-	set msg=concat("Số Hợp Đồng còn lại ",quantity);
-    signal sqlstate '48000' set message_text=msg;
+		select count(*)  into @amount
+		from contract;
+		-- signal sqlstate '01000' set message_text=msg;
 end //
 delimiter ;
 
+set @amount=0;
 delete from contract
-where contract.id=13;
+where id=13;
+select @amount as "số hợp đồng còn lại";
 
-
+select *
+from contract;
 drop trigger tr_xoa_hop_dong;

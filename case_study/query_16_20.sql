@@ -239,8 +239,9 @@ join (select accompanied_service.id
 from accompanied_service
 join contract_detail on contract_detail.id_accompanied_service=accompanied_service.id
 join contract on contract_detail.id_contract=contract.id
-where year(contract.date_contract)=2020 and contract_detail.quantity>10
+where year(contract.date_contract)=2020 
 group by accompanied_service.id
+having sum(contract_detail.quantity)>10
 ) as t on t.id=accompanied_service.id
 set accompanied_service.price=accompanied_service.price*2;
 

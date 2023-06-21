@@ -33,14 +33,15 @@ group by service.id;
 select distinct customer.name 
 from customer;
 
-select distinct customer.name
-from kind_of_customer
-right join customer on customer.id_kind_of_customer=kind_of_customer.id;
+select customer.name
+from customer
+union
+select customer.name
+from customer;
 
 select distinct customer.name
-from contract
-right join customer on contract.id_customer=customer.id
-group by customer.id;
+from customer
+group by customer.name;
 
 --  9.	Thực hiện thống kê doanh thu theo tháng, nghĩa là tương ứng với mỗi tháng trong năm 2021 thì sẽ có bao nhiêu khách hàng thực hiện đặt phòng.
 -- select month(contract.date_contract), count(contract.id_customer)
