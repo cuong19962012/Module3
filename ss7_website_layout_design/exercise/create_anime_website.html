@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial;
+        }
+
+        #header {
+            height: 100px;
+            background-color: whitesmoke;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        #header_link a {
+            text-decoration: none;
+            color: black;
+        }
+
+        #header_link {
+            padding: 10px;
+            margin: 10px;
+        }
+
+        ul, li {
+            padding: 0;
+            margin: 0;
+            float: left;
+            position: relative;
+            list-style: none;
+        }
+
+        #header_link li:before {
+            content: "|";
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        #header_link li:first-child:before {
+            content: "";
+        }
+
+        #header_link ul {
+            display: inline-block;
+        }
+
+
+        #footer {
+            clear: both;
+            text-align: center;
+        }
+
+        #left_content {
+            margin: 10px;
+            padding: 0;
+        }
+
+        #right_content {
+            margin: 10px;
+            padding: 0;
+        }
+
+        #left_content video, #right_content video {
+            width: 100%;
+        }
+
+        .content ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        img {
+            height: 100px;
+            width: 100px;
+        }
+
+        #header_link {
+            display: flex;
+            justify-content: center;
+        }
+
+        .col-1 {
+            width: 8.33%;
+        }
+
+        .col-2 {
+            width: 16.66%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 33.33%;
+        }
+
+        .col-5 {
+            width: 41.66%;
+        }
+
+        .col-6 {
+
+            width: 50%;
+        }
+
+        .col-7 {
+            width: 58.33%;
+        }
+
+        .col-8 {
+            width: 66.66%;
+        }
+
+        .col-9 {
+            width: 75%;
+        }
+
+        .col-10 {
+            width: 83.33%;
+        }
+
+        .col-11 {
+            width: 91.66%;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <div class="col-12">
+        <img src="logo.png">
+    </div>
+</div>
+<div id="header_link" class="col-12">
+    <ul>
+        <li>
+            <a href="#">Phim hoạt hình</a>
+        </li>
+
+        <li>
+            <a href="#">Phim hoạt hình yêu thích</a>
+        </li>
+        <li>
+            <a href="#">Nhân vật hoạt hình</a>
+        </li>
+        <li>
+            <a href="#">Góp ý</a>
+        </li>
+    </ul>
+</div>
+<div class="content">
+    <div class="col-3" style="float: left">
+        <div id="left_content">
+            <ul>
+                <li>
+                    <video controls="controls">
+                        <source src="videoplayback.mp4" type="video/mp4">
+                    </video>
+                    Video 1- 100000 lượt xem
+                </li>
+                <li>
+                    <video controls="controls">
+                        <source src="videoplayback.mp4" type="video/mp4">
+                    </video>
+                    Video 1- 100000 lượt xem
+                </li>
+                <li>
+                    <video controls="controls">
+                        <source src="videoplayback.mp4" type="video/mp4">
+                    </video>
+                    Video 1- 100000 lượt xem
+                </li>
+                <li>
+                    <video controls="controls">
+                        <source src="videoplayback.mp4" type="video/mp4">
+                    </video>
+                    Video 1- 100000 lượt xem
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-9" style="float: right">
+        <div id="right_content">
+            <video controls="controls">
+                <source src="videoplayback.mp4" type="video/mp4">
+            </video>
+            NDO - Nhật Bản là quốc gia có nền công nghiệp hoạt hình lâu đời và tầm ảnh hưởng rộng rãi trên thế giới,
+            trong khi Việt Nam được đánh giá cao về nguồn nhân lực trẻ, sáng tạo và tâm huyết. Thời gian qua, những cuộc
+            gặp gỡ, diễn đàn về lĩnh vực điện ảnh nói chung, phim hoạt hình nói riêng đã cho thấy tiềm năng rộng mở để
+            phát triển mối quan hệ hợp tác giữa các họa sĩ, kỹ thuật viên, nhà sáng tạo nội dung và đơn vị sản xuất phim
+            hoạt hình hai nước.
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div class="col-12">Thiết kế bởi Cường</div>
+</div>
+</body>
+</html>
