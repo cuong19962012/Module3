@@ -13,7 +13,7 @@ public class HelloServlet extends HttpServlet{
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         float operand1=Float.parseFloat(request.getParameter("operand1"));
         float operand2=Float.parseFloat(request.getParameter("operand2"));
-        String operator=String.valueOf(request.getParameter("operator"));
+        String operator=request.getParameter("operator");
         float result=0;
         if(operator.equals("add")){
             result=operand1+operand2;
@@ -28,7 +28,7 @@ public class HelloServlet extends HttpServlet{
            result=operand1/operand2;
         }
         request.setAttribute("result",result);
-        RequestDispatcher dispatcher=request.getRequestDispatcher("/HelloServlet.jsp");
+        RequestDispatcher dispatcher=request.getRequestDispatcher("/index.jsp");
         dispatcher.forward(request,response);
     }
 
