@@ -10,6 +10,11 @@
 <html>
 <head>
     <title></title>
+    <style>
+        .message {
+            color: greenyellow;
+        }
+    </style>
 </head>
 <body>
 <p>
@@ -22,11 +27,8 @@
         <input type="text" id="name" name="name"/>
         <input type="submit" value="Search">
     </fieldset>
-<%--    <c:if test="${message!= null}">--%>
-<%--        <span class="message">${message}</span>--%>
-<%--    </c:if>--%>
     <c:if test="${products!=null}">
-        <c:forEach var="product" items="products">
+        <c:forEach var="product" items="${products}">
             <table>
                 <tr>
                     <td>Name</td>
@@ -41,6 +43,7 @@
                     <td>${product.getMaker()}</td>
                 </tr>
             </table>
+            <br>
         </c:forEach>
     </c:if>
 </form>

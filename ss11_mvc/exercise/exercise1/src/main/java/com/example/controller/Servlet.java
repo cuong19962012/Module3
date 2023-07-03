@@ -164,11 +164,7 @@ public class Servlet extends HttpServlet {
         String name = request.getParameter("name");
         List<Product> products = iProductService.search(name);
         RequestDispatcher dispatcher;
-//        if (products != null) {
         request.setAttribute("products", products);
-//        } else {
-//            request.setAttribute("message", "Product not found");
-//        }
         dispatcher = request.getRequestDispatcher("product/search.jsp");
         try {
             dispatcher.forward(request, response);
