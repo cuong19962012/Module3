@@ -1,7 +1,5 @@
 package servlet;
 
-import sun.rmi.server.Dispatcher;
-
 import java.io.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
