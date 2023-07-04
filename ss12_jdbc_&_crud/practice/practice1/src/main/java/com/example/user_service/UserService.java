@@ -1,6 +1,6 @@
 package com.example.user_service;
 
-import com.example.model.User;
+import com.example.user_model.User;
 import com.example.user_repository.IUserRepository;
 import com.example.user_repository.UserRepository;
 

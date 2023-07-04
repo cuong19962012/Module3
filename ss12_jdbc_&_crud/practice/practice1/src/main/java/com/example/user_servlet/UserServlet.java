@@ -1,7 +1,6 @@
-package com.example.servlet;
+package com.example.user_servlet;
 
-import com.example.model.User;
-import com.example.user_repository.UserRepository;
+import com.example.user_model.User;
 import com.example.user_service.IUserService;
 import com.example.user_service.UserService;
 

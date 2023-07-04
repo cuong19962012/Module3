@@ -1,6 +1,4 @@
-package com.example.model;
-
-import org.omg.CORBA.PUBLIC_MEMBER;
+package com.example.user_model;
 
 import java.util.Objects;
 

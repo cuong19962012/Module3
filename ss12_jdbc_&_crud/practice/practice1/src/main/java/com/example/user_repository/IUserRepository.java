@@ -1,6 +1,6 @@
 package com.example.user_repository;
 
-import com.example.model.User;
+import com.example.user_model.User;
 
 import java.sql.SQLException;
 import java.util.List;
