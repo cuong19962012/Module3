@@ -7,7 +7,7 @@ import com.example.repository.ProductRepository;
 import java.util.List;
 
 public class ProductService implements IProductService {
-    IProductRepository iProductRepository = new ProductRepository();
+    private IProductRepository iProductRepository = new ProductRepository();
 
     @Override
     public List<Product> list() {
@@ -20,8 +20,14 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public void add(Product product) {
-        iProductRepository.add(product);
+    public void add(String name, double price, String description, String maker) {
+        int id;
+        for (id = 1; id <= iProductRepository.list().size() + 1; id++) {
+            Product product = iProductRepository.findById(id);
+            if (product == null)
+                break;
+        }
+        iProductRepository.add(new Product(id, name, price, description, maker));
     }
 
     @Override

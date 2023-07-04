@@ -5,7 +5,6 @@ import com.example.service.IProductService;
 import com.example.service.ProductService;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,7 +12,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 @WebServlet(name = "ProductServlet", value = "/product-servlet")
-public class Servlet extends HttpServlet {
+public class ProductServlet extends HttpServlet {
     private static IProductService iProductService = new ProductService();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -110,13 +109,18 @@ public class Servlet extends HttpServlet {
     }
 
     private void createProductForm(HttpServletRequest request, HttpServletResponse response) {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("product/create.jsp");
+//        RequestDispatcher dispatcher = request.getRequestDispatcher("product/create.jsp");
+//        try {
+//            dispatcher.forward(request, response);
+//        } catch (ServletException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
+            response.sendRedirect("product/create.jsp");
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -218,17 +222,11 @@ public class Servlet extends HttpServlet {
     }
 
     private void createProduct(HttpServletRequest request, HttpServletResponse response) {
-        int id;
-        for (id = 1; id <= iProductService.list().size() + 1; id++) {
-            Product product = iProductService.findById(id);
-            if (product == null)
-                break;
-        }
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
         String description = request.getParameter("description");
         String maker = request.getParameter("maker");
-        iProductService.add(new Product(id, name, price, description, maker));
+        iProductService.add(name, price, description, maker);
         try {
             response.sendRedirect("/product-servlet?message=Create%20complete");
         } catch (IOException e) {
