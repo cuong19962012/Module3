@@ -98,9 +98,11 @@ public class UserRepository implements IUserRepository {
         // Step 1: Establishing a Connection
         try {
             Connection connection = getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);
-            ResultSet rs = preparedStatement.executeQuery();
+//            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_USERS);
+//            ResultSet rs = preparedStatement.executeQuery();
             // Step 4: Process the ResultSet object.
+            CallableStatement callableStatement = connection.prepareCall("call select_all();");
+            ResultSet rs = callableStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
@@ -116,22 +118,28 @@ public class UserRepository implements IUserRepository {
 
     public boolean deleteUser(int id) throws SQLException {
         boolean rowDeleted;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);) {
-            statement.setInt(1, id);
-            rowDeleted = statement.executeUpdate() > 0;
+        try (Connection connection = getConnection();
+//             PreparedStatement statement = connection.prepareStatement(DELETE_USERS_SQL);
+             CallableStatement callableStatement = connection.prepareCall("call delete_user(?)");
+        ) {
+            callableStatement.setInt(1, id);
+            rowDeleted = callableStatement.executeUpdate() > 0;
         }
         return rowDeleted;
     }
 
     public boolean updateUser(User user) throws SQLException {
         boolean rowUpdated;
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);) {
-            statement.setString(1, user.getName());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getCountry());
-            statement.setInt(4, user.getId());
+        try (Connection connection = getConnection();
+//             PreparedStatement statement = connection.prepareStatement(UPDATE_USERS_SQL);
+             CallableStatement callableStatement = connection.prepareCall("call edit_user(?,?,?,?)")
+        ) {
+            callableStatement.setString(1, user.getName());
+            callableStatement.setString(2, user.getEmail());
+            callableStatement.setString(3, user.getCountry());
+            callableStatement.setInt(4, user.getId());
 
-            rowUpdated = statement.executeUpdate() > 0;
+            rowUpdated = callableStatement.executeUpdate() > 0;
         }
         return rowUpdated;
     }
