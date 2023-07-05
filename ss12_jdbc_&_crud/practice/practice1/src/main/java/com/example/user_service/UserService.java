@@ -37,16 +37,36 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> searchUser(String country) throws SQLException {
-        List<User> listUser = userRepository.selectAllUsers();
-        for (User u : listUser) {
-            if (!country.toLowerCase().contains(u.getCountry().toLowerCase()))
-                listUser.remove(u);
-        }
-        return listUser;
+        return userRepository.searchUser(country);
     }
 
     @Override
     public List<User> oderByUser() throws SQLException {
         return userRepository.oderByUser();
+    }
+
+    @Override
+    public User getUserById(int id) {
+        return userRepository.getUserById(id);
+    }
+
+    @Override
+    public void insertUserStore(User user) throws SQLException {
+        userRepository.insertUserStore(user);
+    }
+
+    @Override
+    public void addUserTransaction(User user, int[] permissions) {
+        userRepository.addUserTransaction(user, permissions);
+    }
+
+    @Override
+    public void insertUpdateWithoutTransaction() {
+        userRepository.insertUpdateWithoutTransaction();
+    }
+
+    @Override
+    public void insertUpdateUseTransaction() {
+        userRepository.insertUpdateUseTransaction();
     }
 }
